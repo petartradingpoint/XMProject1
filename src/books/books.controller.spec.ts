@@ -16,6 +16,7 @@ describe('BooksController', () => {
     isbn: 'isbn-1',
     publishedYear: 1990,
     genre: 'Fantasy',
+    rating: null,
   };
 
   beforeEach(async () => {

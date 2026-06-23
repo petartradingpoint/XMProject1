@@ -5,6 +5,7 @@ export interface Book {
   isbn: string;
   publishedYear: number;
   genre: string | null;
+  rating: number | null;
 }
 
 export interface BookRequest {
@@ -13,6 +14,7 @@ export interface BookRequest {
   isbn: string;
   publishedYear: number;
   genre?: string;
+  rating?: number | null;
 }
 
 export interface BookQuery {

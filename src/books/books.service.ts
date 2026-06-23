@@ -49,6 +49,7 @@ export class BooksService {
       isbn: dto.isbn,
       publishedYear: dto.publishedYear,
       genre: dto.genre ?? null,
+      rating: dto.rating ?? null,
       authors,
     });
     const saved = await this.booksRepository.save(book);
@@ -68,6 +69,7 @@ export class BooksService {
     book.isbn = dto.isbn;
     book.publishedYear = dto.publishedYear;
     book.genre = dto.genre ?? null;
+    book.rating = dto.rating ?? book.rating;
     book.authors = authors;
 
     const saved = await this.booksRepository.save(book);
@@ -104,6 +106,7 @@ export class BooksService {
       isbn: book.isbn,
       publishedYear: book.publishedYear,
       genre: book.genre,
+      rating: book.rating,
     };
   }
 }

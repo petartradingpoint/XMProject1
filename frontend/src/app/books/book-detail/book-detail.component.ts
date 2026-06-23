@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Book } from '../../models/book.model';
+import { Book, BookRequest } from '../../models/book.model';
 import { BookService } from '../../services/book.service';
 import { extractErrorMessage } from '../../shared/http-error';
 
@@ -16,9 +16,12 @@ export class BookDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
+  readonly starValues = [1, 2, 3, 4, 5];
+
   book: Book | null = null;
   loading = false;
   error: string | null = null;
+  savingRating = false;
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -31,6 +34,34 @@ export class BookDetailComponent implements OnInit {
       error: (err) => {
         this.error = extractErrorMessage(err, 'Failed to load book.');
         this.loading = false;
+      },
+    });
+  }
+
+  rate(star: number): void {
+    if (!this.book || this.savingRating) {
+      return;
+    }
+
+    const payload: BookRequest = {
+      title: this.book.title,
+      authors: [...this.book.authors],
+      isbn: this.book.isbn,
+      publishedYear: this.book.publishedYear,
+      genre: this.book.genre ?? undefined,
+      rating: star,
+    };
+
+    this.savingRating = true;
+    this.error = null;
+    this.bookService.update(this.book.id, payload).subscribe({
+      next: (book) => {
+        this.book = book;
+        this.savingRating = false;
+      },
+      error: (err) => {
+        this.error = extractErrorMessage(err, 'Failed to save rating.');
+        this.savingRating = false;
       },
     });
   }

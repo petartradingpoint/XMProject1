@@ -5,4 +5,5 @@ export interface BookResponse {
   readonly isbn: string;
   readonly publishedYear: number;
   readonly genre: string | null;
+  readonly rating: number | null;
 }

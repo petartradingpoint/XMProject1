@@ -4,6 +4,8 @@ import {
   IsInt,
   IsNotEmpty,
   IsOptional,
+  Max,
+  Min,
   IsString,
   MaxLength,
 } from 'class-validator';
@@ -33,4 +35,10 @@ export class BookRequestDto {
   @IsString()
   @MaxLength(100)
   readonly genre?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  readonly rating?: number | null;
 }

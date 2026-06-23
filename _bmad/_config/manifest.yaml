@@ -1,0 +1,40 @@
+installation:
+  version: 6.9.0
+  installDate: 2026-06-23T07:26:49.634Z
+  lastUpdated: 2026-06-23T07:26:49.634Z
+modules:
+  - name: core
+    version: 6.9.0
+    installDate: 2026-06-23T07:26:49.023Z
+    lastUpdated: 2026-06-23T07:26:49.631Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+  - name: bmm
+    version: 6.9.0
+    installDate: 2026-06-23T07:26:48.975Z
+    lastUpdated: 2026-06-23T07:26:49.632Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+  - name: cis
+    version: v0.2.1
+    installDate: 2026-06-23T07:26:49.051Z
+    lastUpdated: 2026-06-23T07:26:49.633Z
+    source: external
+    npmPackage: bmad-creative-intelligence-suite
+    repoUrl: https://github.com/bmad-code-org/bmad-module-creative-intelligence-suite
+    channel: stable
+    sha: 07a8dd03d196a762f21c241d985293fe5b0f90e7
+  - name: tea
+    version: v1.19.0
+    installDate: 2026-06-23T07:26:49.583Z
+    lastUpdated: 2026-06-23T07:26:49.634Z
+    source: external
+    npmPackage: bmad-method-test-architecture-enterprise
+    repoUrl: https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise
+    channel: stable
+    sha: 8734d51f24071ddbcb3617390b5fcddb4128ef77
+ides:
+  - codex
+  - github-copilot

@@ -105,6 +105,7 @@ describe('AuthorsService', () => {
               isbn: 'isbn-1',
               publishedYear: 1990,
               genre: 'Fantasy',
+              rating: null,
               authors: [
                 { id: 1, name: 'George Orwell' },
                 { id: 2, name: 'Aldous Huxley' },
@@ -134,6 +135,7 @@ describe('AuthorsService', () => {
               isbn: 'isbn-1',
               publishedYear: 1990,
               genre: 'Fantasy',
+              rating: null,
             },
           ],
         },
@@ -189,6 +191,7 @@ describe('AuthorsService', () => {
             isbn: 'isbn-1',
             publishedYear: 1990,
             genre: 'Fantasy',
+            rating: null,
             authors: [
               { id: 1, name: 'George Orwell' },
               { id: 2, name: 'Aldous Huxley' },
@@ -207,6 +210,7 @@ describe('AuthorsService', () => {
           isbn: 'isbn-1',
           publishedYear: 1990,
           genre: 'Fantasy',
+          rating: null,
         },
       ]);
     });

@@ -1,13 +1,27 @@
-Authoritative technology guideline for this repo. Basic modern TypeScript/NestJS practices, skimmable, no boilerplate.
-Stack: Node.js, TypeScript (strict mode), NestJS (controller / service / repository layers), TypeORM with in-memory SQLite database, class-validator + class-transformer for DTO validation, Jest (unit tests with mocked dependencies) + Supertest (e2e / integration tests), React + Vite (front-end).
+# AI instructions
 
-Key rules to include:
-- TypeScript strict mode enabled; no `any` without explicit justification.
-- NestJS module structure: one module per feature (controller, service, repository, entity, DTOs in the same folder).
-- DTOs use `readonly` properties and `class-validator` decorators (`@IsString()`, `@IsNotEmpty()`, etc.).
-- Persistence entities use TypeORM `@Entity` / `@Column` / `@PrimaryGeneratedColumn` decorators; never use plain interfaces for database models.
-- Business logic lives in services; controllers must stay thin (no business logic).
-- Every feature ships with both: a Jest unit test (service + controller with mocked dependencies) and a Supertest integration test hitting the running NestJS app.
-- Error handling via NestJS exception filters (`@Catch`); use built-in `HttpException` subclasses.
-- Naming: PascalCase for classes and decorators, camelCase for variables and methods, kebab-case for file names.
-- ESLint + Prettier enforced; no committed code with lint errors.
+## Repo purpose (one line)
+A RESTful Book Library API (NestJS) for managing books and their authors, with an Angular SPA front end that consumes it.
+
+## Stack (one line)
+TypeScript on NestJS 11 (backend) + Angular 17 (frontend) — full detail in docs/context/stack.md.
+
+## Quality gates
+- Lint: `npm run lint` (eslint --fix; `no-explicit-any` is an error)
+- Typecheck: not a standalone script — enforced via typescript-eslint project service
+- Test: `npm test` (Jest unit), `npm run test:e2e` (e2e); frontend `npm test` (Karma) in `frontend/`
+- Build: `npm run build` (nest build); frontend `npm run build` (ng build) in `frontend/`
+
+## How we work
+- Contract first: keep `openapi.yaml` in sync with routes, DTOs, and schemas on every API change.
+- Strict DTO validation: the global `ValidationPipe` enforces whitelist + `forbidNonWhitelisted`; keep `class-validator` decorators authoritative when adding/renaming fields.
+- Mind the DB: TypeORM uses in-memory SQLite with `synchronize: true` — entity changes silently reshape the schema and data resets on restart. The Book↔Author `@ManyToMany` (eager on Book) is sensitive to mapping changes.
+- Respect module boundaries: feature code in `authors/` and `books/`; cross-cutting concerns in `common/`.
+- Keep it typed and lint-clean: no `any`, no floating promises.
+- Don't edit generated/build output (`dist/`, `coverage/`).
+
+## Reference
+- Identity & scope: docs/context/repo-constitution.md
+- Architecture: docs/context/architecture.md
+- Stack & commands: docs/context/stack.md
+- Historical work: docs/archive/

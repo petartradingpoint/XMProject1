@@ -15,6 +15,8 @@ import { extractErrorMessage } from '../../shared/http-error';
 export class BookListComponent implements OnInit {
   private readonly bookService = inject(BookService);
 
+  readonly starValues = [1, 2, 3, 4, 5];
+
   books: Book[] = [];
   loading = false;
   error: string | null = null;

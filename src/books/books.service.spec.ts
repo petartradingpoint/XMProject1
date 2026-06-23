@@ -61,6 +61,7 @@ describe('BooksService', () => {
           isbn: 'isbn-1',
           publishedYear: 1990,
           genre: 'Fantasy',
+          rating: null,
           authors: [orwell, huxley],
         },
       ]);
@@ -76,6 +77,7 @@ describe('BooksService', () => {
           isbn: 'isbn-1',
           publishedYear: 1990,
           genre: 'Fantasy',
+          rating: null,
         },
       ]);
     });
@@ -98,6 +100,7 @@ describe('BooksService', () => {
           isbn: 'isbn-1',
           publishedYear: 1990,
           genre: 'Fantasy',
+          rating: null,
           authors: [orwell, huxley],
         },
         {
@@ -106,6 +109,7 @@ describe('BooksService', () => {
           isbn: 'isbn-2',
           publishedYear: 1932,
           genre: 'Dystopian',
+          rating: null,
           authors: [huxley],
         },
       ]);
@@ -123,6 +127,7 @@ describe('BooksService', () => {
           isbn: 'isbn-1',
           publishedYear: 1990,
           genre: 'Fantasy',
+          rating: null,
         },
       ]);
     });
@@ -136,6 +141,7 @@ describe('BooksService', () => {
         isbn: 'isbn-1',
         publishedYear: 1990,
         genre: 'Fantasy',
+        rating: null,
         authors: [orwell, huxley],
       });
 
@@ -148,6 +154,7 @@ describe('BooksService', () => {
         isbn: 'isbn-1',
         publishedYear: 1990,
         genre: 'Fantasy',
+        rating: null,
       });
     });
 
@@ -178,6 +185,7 @@ describe('BooksService', () => {
         isbn: 'isbn-1',
         publishedYear: 1990,
         genre: 'Fantasy',
+        rating: null,
         authors: [orwell, huxley],
       };
       repository.create.mockReturnValue(entity);
@@ -194,6 +202,7 @@ describe('BooksService', () => {
         isbn: 'isbn-1',
         publishedYear: 1990,
         genre: 'Fantasy',
+        rating: null,
         authors: [orwell, huxley],
       });
       expect(result).toEqual({
@@ -203,6 +212,7 @@ describe('BooksService', () => {
         isbn: 'isbn-1',
         publishedYear: 1990,
         genre: 'Fantasy',
+        rating: null,
       });
     });
 
@@ -226,6 +236,7 @@ describe('BooksService', () => {
         isbn: 'isbn-2',
         publishedYear: 1945,
         genre: null,
+        rating: null,
         authors: [orwell],
       });
 
@@ -249,6 +260,7 @@ describe('BooksService', () => {
       isbn: 'isbn-1',
       publishedYear: 1990,
       genre: 'Fantasy',
+      rating: 3,
       authors: [orwell],
     };
 
@@ -276,7 +288,31 @@ describe('BooksService', () => {
         isbn: 'isbn-1',
         publishedYear: 1991,
         genre: 'Classic',
+        rating: 3,
       });
+
+      expect(repository.save).toHaveBeenCalledWith(
+        expect.objectContaining({ rating: 3 }),
+      );
+    });
+
+    it('updates the rating when a new one is provided', async () => {
+      repository.findOne.mockResolvedValueOnce({ ...existing });
+      authorsService.resolveByNames.mockResolvedValue([orwell]);
+      repository.save.mockImplementation((b: Book) => Promise.resolve(b));
+
+      const result = await service.update(10, {
+        title: 'Good Omens',
+        authors: ['George Orwell'],
+        isbn: 'isbn-1',
+        publishedYear: 1990,
+        rating: 5,
+      });
+
+      expect(result.rating).toBe(5);
+      expect(repository.save).toHaveBeenCalledWith(
+        expect.objectContaining({ rating: 5 }),
+      );
     });
 
     it('throws NotFoundException when the book is missing', async () => {

@@ -24,6 +24,9 @@ export class Book {
   @Column({ type: 'varchar', nullable: true })
   genre!: string | null;
 
+  @Column({ type: 'integer', nullable: true })
+  rating!: number | null;
+
   @ManyToMany(() => Author, (author) => author.books, { eager: true })
   @JoinTable()
   authors!: Author[];

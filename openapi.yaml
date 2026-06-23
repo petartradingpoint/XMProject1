@@ -249,6 +249,10 @@ components:
           type: integer
         genre:
           type: string
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
           nullable: true
     
     BookRequest:
@@ -274,6 +278,12 @@ components:
           type: integer
         genre:
           type: string
+          nullable: true
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          nullable: true
 
     Author:
       type: object

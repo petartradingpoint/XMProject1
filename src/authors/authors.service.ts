@@ -102,6 +102,7 @@ export class AuthorsService {
       isbn: book.isbn,
       publishedYear: book.publishedYear,
       genre: book.genre,
+      rating: book.rating,
     };
   }
 }

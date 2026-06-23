@@ -66,6 +66,7 @@
           <th class="px-4 py-3">Authors</th>
           <th class="px-4 py-3">Year</th>
           <th class="px-4 py-3">Genre</th>
+          <th class="px-4 py-3">Rating</th>
           <th class="px-4 py-3 text-right">Actions</th>
         </tr>
       </thead>
@@ -85,6 +86,19 @@
               >{{ book.genre }}</span
             >
             <span *ngIf="!book.genre" class="text-slate-300">—</span>
+          </td>
+          <td class="px-4 py-3">
+            <div class="flex items-center gap-1 text-base" [attr.aria-label]="book.rating ? book.rating + ' out of 5 stars' : 'Unrated'">
+              <span
+                *ngFor="let star of starValues"
+                [class.text-amber-400]="(book.rating ?? 0) >= star"
+                [class.text-slate-300]="(book.rating ?? 0) < star"
+                >{{ (book.rating ?? 0) >= star ? '★' : '☆' }}</span
+              >
+            </div>
+            <span *ngIf="!book.rating" class="mt-1 block text-xs text-slate-400"
+              >Unrated</span
+            >
           </td>
           <td class="px-4 py-3 text-right">
             <a

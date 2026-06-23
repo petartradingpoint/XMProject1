@@ -24,6 +24,7 @@ describe('Books (e2e)', () => {
     isbn: uniqueIsbn(),
     publishedYear: 1937,
     genre: 'Fantasy',
+    rating: null,
     ...overrides,
   });
 
@@ -42,7 +43,17 @@ describe('Books (e2e)', () => {
         isbn: payload.isbn,
         publishedYear: 1937,
         genre: 'Fantasy',
+        rating: null,
       });
+    });
+
+    it('creates a book with a rating (201)', async () => {
+      const res = await request(server())
+        .post('/api/books')
+        .send(validBook({ rating: 4 }))
+        .expect(201);
+
+      expect(res.body.rating).toBe(4);
     });
 
     it('creates a book with multiple authors (201)', async () => {
@@ -92,6 +103,13 @@ describe('Books (e2e)', () => {
       await request(server())
         .post('/api/books')
         .send(validBook({ authors: [123] }))
+        .expect(400);
+    });
+
+    it('rejects a rating outside the 1 to 5 range (400)', async () => {
+      await request(server())
+        .post('/api/books')
+        .send(validBook({ rating: 6 }))
         .expect(400);
     });
 
@@ -180,6 +198,7 @@ describe('Books (e2e)', () => {
         .expect(200);
 
       expect(res.body.id).toBe(created.body.id);
+      expect(res.body.rating).toBeNull();
     });
 
     it('returns 404 for an unknown id', async () => {
@@ -216,8 +235,34 @@ describe('Books (e2e)', () => {
           id: created.body.id,
           title: 'The Hobbit (Revised)',
           publishedYear: 1951,
+          rating: null,
         }),
       );
+    });
+
+    it('updates and persists a book rating (200)', async () => {
+      const created = await request(server())
+        .post('/api/books')
+        .send(validBook())
+        .expect(201);
+
+      await request(server())
+        .put(`/api/books/${created.body.id}`)
+        .send(
+          validBook({
+            isbn: created.body.isbn,
+            title: created.body.title,
+            authors: ['J.R.R. Tolkien'],
+            rating: 5,
+          }),
+        )
+        .expect(200);
+
+      const reloaded = await request(server())
+        .get(`/api/books/${created.body.id}`)
+        .expect(200);
+
+      expect(reloaded.body.rating).toBe(5);
     });
 
     it('replaces the authors on update (200)', async () => {

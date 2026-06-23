@@ -30,6 +30,32 @@
       >
     </div>
 
+    <div class="mb-6 rounded-lg bg-slate-50 px-4 py-4">
+      <div class="mb-2 flex items-center justify-between">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          Rating
+        </h2>
+        <span class="text-sm text-slate-500">
+          {{ book.rating ? book.rating + '/5 stars' : 'Unrated' }}
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button
+          *ngFor="let star of starValues"
+          type="button"
+          (click)="rate(star)"
+          [disabled]="savingRating"
+          class="text-3xl leading-none transition hover:scale-110 disabled:cursor-not-allowed disabled:opacity-60"
+          [class.text-amber-400]="(book.rating ?? 0) >= star"
+          [class.text-slate-300]="(book.rating ?? 0) < star"
+          [attr.aria-label]="'Rate ' + star + ' out of 5 stars'"
+        >
+          {{ (book.rating ?? 0) >= star ? '★' : '☆' }}
+        </button>
+      </div>
+      <p *ngIf="savingRating" class="mt-2 text-xs text-slate-400">Saving rating…</p>
+    </div>
+
     <dl class="grid grid-cols-2 gap-4 text-sm">
       <div>
         <dt class="text-slate-400">ISBN</dt>
