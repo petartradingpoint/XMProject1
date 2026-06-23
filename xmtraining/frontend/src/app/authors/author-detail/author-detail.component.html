@@ -1,0 +1,82 @@
+<section class="mx-auto max-w-2xl">
+  <a
+    routerLink="/authors"
+    class="mb-4 inline-block text-sm text-slate-500 hover:text-emerald-600"
+    >&larr; Back to authors</a
+  >
+
+  <div
+    *ngIf="error"
+    class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+  >
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="py-10 text-center text-slate-400">Loading…</div>
+
+  <div *ngIf="author">
+    <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+      <h1 class="text-2xl font-bold text-slate-900">{{ author.name }}</h1>
+      <p class="mt-1 text-slate-500">
+        <span *ngIf="author.nationality">{{ author.nationality }}</span>
+        <span *ngIf="author.nationality && author.birthYear"> &middot; </span>
+        <span *ngIf="author.birthYear">born {{ author.birthYear }}</span>
+        <span
+          *ngIf="!author.nationality && !author.birthYear"
+          class="text-slate-300"
+          >No additional details</span
+        >
+      </p>
+    </article>
+
+    <h2 class="mb-3 mt-8 text-lg font-semibold text-slate-900">
+      Books ({{ author.books.length }})
+    </h2>
+
+    <div
+      *ngIf="author.books.length === 0"
+      class="rounded-lg border border-dashed border-slate-300 bg-white py-10 text-center text-slate-500"
+    >
+      This author has no books yet.
+    </div>
+
+    <div
+      *ngIf="author.books.length > 0"
+      class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
+    >
+      <table class="w-full text-left text-sm">
+        <thead
+          class="bg-slate-100 text-xs uppercase tracking-wide text-slate-500"
+        >
+          <tr>
+            <th class="px-4 py-3">Title</th>
+            <th class="px-4 py-3">Authors</th>
+            <th class="px-4 py-3">Year</th>
+            <th class="px-4 py-3">Genre</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-100">
+          <tr *ngFor="let book of author.books" class="hover:bg-slate-50">
+            <td class="px-4 py-3 font-medium text-slate-900">
+              <a
+                [routerLink]="['/books', book.id]"
+                class="hover:text-emerald-600"
+                >{{ book.title }}</a
+              >
+            </td>
+            <td class="px-4 py-3">{{ book.authors.join(', ') }}</td>
+            <td class="px-4 py-3">{{ book.publishedYear }}</td>
+            <td class="px-4 py-3">
+              <span
+                *ngIf="book.genre"
+                class="rounded-full bg-slate-100 px-2 py-1 text-xs text-slate-600"
+                >{{ book.genre }}</span
+              >
+              <span *ngIf="!book.genre" class="text-slate-300">—</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

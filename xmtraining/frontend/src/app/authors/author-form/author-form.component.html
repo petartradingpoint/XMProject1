@@ -1,0 +1,78 @@
+<section class="mx-auto max-w-xl">
+  <a
+    routerLink="/authors"
+    class="mb-4 inline-block text-sm text-slate-500 hover:text-emerald-600"
+    >&larr; Back to authors</a
+  >
+
+  <h1 class="mb-6 text-2xl font-bold text-slate-900">Add Author</h1>
+
+  <div
+    *ngIf="error"
+    class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+  >
+    {{ error }}
+  </div>
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
+  >
+    <div>
+      <label class="mb-1 block text-sm font-medium text-slate-700">Name</label>
+      <input
+        formControlName="name"
+        class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+      />
+      <p
+        *ngIf="form.controls.name.touched && form.controls.name.invalid"
+        class="mt-1 text-xs text-red-600"
+      >
+        Name is required (max 255 characters).
+      </p>
+    </div>
+
+    <div>
+      <label class="mb-1 block text-sm font-medium text-slate-700"
+        >Nationality <span class="text-slate-400">(optional)</span></label
+      >
+      <input
+        formControlName="nationality"
+        class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+      />
+    </div>
+
+    <div>
+      <label class="mb-1 block text-sm font-medium text-slate-700"
+        >Birth Year <span class="text-slate-400">(optional)</span></label
+      >
+      <input
+        type="number"
+        formControlName="birthYear"
+        class="w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+      />
+      <p
+        *ngIf="form.controls.birthYear.touched && form.controls.birthYear.invalid"
+        class="mt-1 text-xs text-red-600"
+      >
+        Enter a valid year.
+      </p>
+    </div>
+
+    <div class="flex items-center justify-end gap-3 pt-2">
+      <a
+        routerLink="/authors"
+        class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+        >Cancel</a
+      >
+      <button
+        type="submit"
+        [disabled]="saving"
+        class="rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:opacity-50"
+      >
+        {{ saving ? 'Saving…' : 'Create Author' }}
+      </button>
+    </div>
+  </form>
+</section>

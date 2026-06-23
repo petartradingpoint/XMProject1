@@ -1,0 +1,107 @@
+<section>
+  <div class="mb-6 flex items-center justify-between">
+    <h1 class="text-2xl font-bold text-slate-900">Books</h1>
+    <a
+      routerLink="/books/new"
+      class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+      >+ Add Book</a
+    >
+  </div>
+
+  <form
+    (ngSubmit)="load()"
+    class="mb-6 grid grid-cols-1 gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:grid-cols-[1fr_1fr_auto_auto]"
+  >
+    <input
+      [(ngModel)]="genreFilter"
+      name="genre"
+      placeholder="Filter by genre"
+      class="rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+    />
+    <input
+      [(ngModel)]="authorFilter"
+      name="author"
+      placeholder="Filter by author"
+      class="rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+    />
+    <button
+      type="submit"
+      class="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
+    >
+      Filter
+    </button>
+    <button
+      type="button"
+      (click)="clearFilters()"
+      class="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+    >
+      Clear
+    </button>
+  </form>
+
+  <div
+    *ngIf="error"
+    class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+  >
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="py-10 text-center text-slate-400">Loading…</div>
+
+  <div
+    *ngIf="!loading && books.length === 0 && !error"
+    class="rounded-lg border border-dashed border-slate-300 bg-white py-12 text-center text-slate-500"
+  >
+    No books found.
+  </div>
+
+  <div
+    *ngIf="!loading && books.length > 0"
+    class="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
+  >
+    <table class="w-full text-left text-sm">
+      <thead class="bg-slate-100 text-xs uppercase tracking-wide text-slate-500">
+        <tr>
+          <th class="px-4 py-3">Title</th>
+          <th class="px-4 py-3">Authors</th>
+          <th class="px-4 py-3">Year</th>
+          <th class="px-4 py-3">Genre</th>
+          <th class="px-4 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <tr *ngFor="let book of books" class="hover:bg-slate-50">
+          <td class="px-4 py-3 font-medium text-slate-900">
+            <a [routerLink]="['/books', book.id]" class="hover:text-emerald-600">{{
+              book.title
+            }}</a>
+          </td>
+          <td class="px-4 py-3">{{ book.authors.join(', ') }}</td>
+          <td class="px-4 py-3">{{ book.publishedYear }}</td>
+          <td class="px-4 py-3">
+            <span
+              *ngIf="book.genre"
+              class="rounded-full bg-slate-100 px-2 py-1 text-xs text-slate-600"
+              >{{ book.genre }}</span
+            >
+            <span *ngIf="!book.genre" class="text-slate-300">—</span>
+          </td>
+          <td class="px-4 py-3 text-right">
+            <a
+              [routerLink]="['/books', book.id, 'edit']"
+              class="mr-3 text-sm font-medium text-slate-600 hover:text-emerald-600"
+              >Edit</a
+            >
+            <button
+              type="button"
+              (click)="delete(book)"
+              class="text-sm font-medium text-red-600 hover:text-red-800"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

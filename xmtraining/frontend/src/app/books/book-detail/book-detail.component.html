@@ -1,0 +1,59 @@
+<section class="mx-auto max-w-xl">
+  <a
+    routerLink="/books"
+    class="mb-4 inline-block text-sm text-slate-500 hover:text-emerald-600"
+    >&larr; Back to books</a
+  >
+
+  <div
+    *ngIf="error"
+    class="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+  >
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="py-10 text-center text-slate-400">Loading…</div>
+
+  <article
+    *ngIf="book"
+    class="rounded-lg border border-slate-200 bg-white p-6 shadow-sm"
+  >
+    <div class="mb-4 flex items-start justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900">{{ book.title }}</h1>
+        <p class="text-slate-500">by {{ book.authors.join(', ') }}</p>
+      </div>
+      <span
+        *ngIf="book.genre"
+        class="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600"
+        >{{ book.genre }}</span
+      >
+    </div>
+
+    <dl class="grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <dt class="text-slate-400">ISBN</dt>
+        <dd class="font-medium text-slate-800">{{ book.isbn }}</dd>
+      </div>
+      <div>
+        <dt class="text-slate-400">Published Year</dt>
+        <dd class="font-medium text-slate-800">{{ book.publishedYear }}</dd>
+      </div>
+    </dl>
+
+    <div class="mt-6 flex items-center gap-3 border-t border-slate-100 pt-4">
+      <a
+        [routerLink]="['/books', book.id, 'edit']"
+        class="rounded-md bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700"
+        >Edit</a
+      >
+      <button
+        type="button"
+        (click)="delete()"
+        class="rounded-md border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+      >
+        Delete
+      </button>
+    </div>
+  </article>
+</section>
